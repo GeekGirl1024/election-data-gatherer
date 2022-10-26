@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1032</width>
-    <height>600</height>
+    <height>761</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,9 +30,9 @@
    <widget class="QPlainTextEdit" name="statusArea">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>230</y>
-      <width>371</width>
+      <x>30</x>
+      <y>410</y>
+      <width>711</width>
       <height>261</height>
      </rect>
     </property>
@@ -251,6 +251,234 @@ color: #000000</string>
      <rect>
       <x>880</x>
       <y>150</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Data</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="county5Label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="plainText">
+     <string>Cook County</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="county6Label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>240</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="plainText">
+     <string>Kane County</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="county7Label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>280</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="plainText">
+     <string>Boone County</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="county8Label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>320</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="plainText">
+     <string>DeKalb County</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="county5Url">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>200</y>
+      <width>601</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>https://results622.cookcountyclerkil.gov/Home/Detail?contestId=203</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="county6Url">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>240</y>
+      <width>601</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>http://electionresults.countyofkane.org/Contests.aspx?Id=26</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="county7Url">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>290</y>
+      <width>601</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>https://www.boonecountyil.gov/Departments/Clerk-Recorder/voting/2022_jun_28_il_boone_SOVC.pdf</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="county8Url">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>330</y>
+      <width>601</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>http://dekalb.il.clerkserve.com/wp-content/uploads/DeKalb-General-Primary-Election-Official-Results-06-28-2022-1.pdf</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="download5Button">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>200</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Get File</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="download6Button">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>240</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Get File</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="download7Button">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>290</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Get File</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="download8Button">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>330</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Get File</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="showData5Button">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>200</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Data</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="showData6Button">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>240</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Data</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="showData7Button">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>290</y>
+      <width>113</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Data</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="showData8Button">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>330</y>
       <width>113</width>
       <height>32</height>
      </rect>
