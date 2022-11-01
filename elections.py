@@ -31,14 +31,6 @@ class MyMainWindow(QMainWindow):
 
   def load(self):
     """function that loads events"""
-    self.showData1Button.clicked.connect(self.showData_button1_pressed)
-    self.showData2Button.clicked.connect(self.showData_button2_pressed)
-    self.showData3Button.clicked.connect(self.showData_button3_pressed)
-    self.showData4Button.clicked.connect(self.showData_button4_pressed)
-    self.showData5Button.clicked.connect(self.showData_button5_pressed)
-    self.showData6Button.clicked.connect(self.showData_button6_pressed)
-    self.showData7Button.clicked.connect(self.showData_button7_pressed)
-    self.showData8Button.clicked.connect(self.showData_button8_pressed)
 
     self.download1Button.clicked.connect(self.download_button1_pressed)
     self.download2Button.clicked.connect(self.download_button2_pressed)
@@ -51,78 +43,62 @@ class MyMainWindow(QMainWindow):
 
   def getTimeString(self):
     now = datetime.now()
-    dateString = now.strftime("%Y%m%d-%H%M%S")
+    dateString = now.strftime("%Y%m%d-%H-%M-%S")
     return dateString
 
   def download_button1_pressed(self):
-    url = self.county1Url.text()
+    url = self.county1Url.toPlainText()
     countyName = self.county1Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
-    self.processFile(fileName, "Representative in Congress Eleventh Congressional District")
+    contestName = self.contestName1.toPlainText()
+    self.processFile(fileName, contestName)
 
   def download_button2_pressed(self):
-    url = self.county2Url.text()
+    url = self.county2Url.toPlainText()
     countyName = self.county2Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
-    self.processFile(fileName, "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
+    contestName = self.contestName2.toPlainText()
+    self.processFile(fileName, contestName)
 
   def download_button3_pressed(self):
-    url = self.county3Url.text()
+    url = self.county3Url.toPlainText()
     countyName = self.county3Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
-    self.processFile(fileName, "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
-    
+    contestName = self.contestName3.toPlainText()
+    self.processFile(fileName, contestName)
 
   def download_button4_pressed(self):
-    url = self.county4Url.text()
+    url = self.county4Url.toPlainText()
     countyName = self.county4Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
-    self.processFile(fileName, "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT")
+    contestName = self.contestName4.toPlainText()
+    self.processFile(fileName, contestName)
 
   def download_button5_pressed(self):
-    url = self.county5Url.text()
+    url = self.county5Url.toPlainText()
     countyName = self.county5Label.toPlainText()
+    contestName = self.contestName5.toPlainText()
     fileName = self.downloadFile(url, countyName)
     self.parseCookCounty(fileName)
 
   def download_button6_pressed(self):
-    url = self.county6Url.text()
+    url = self.county6Url.toPlainText()
     countyName = self.county6Label.toPlainText()
+    contestName = self.contestName6.toPlainText()
     fileName = self.downloadFile(url, countyName)
     self.parseKaneCounty(fileName)
 
   def download_button7_pressed(self):
-    url = self.county7Url.text()
-    self.downloadBooneCounty()
+    url = self.county7Url.toPlainText()
+    countyName = self.county7Label.toPlainText()
+    contestName = self.contestName7.toPlainText()
+    fileName = self.downloadFile(url, countyName)
 
   def download_button8_pressed(self):
-    url = self.county8Url.text()
-
-  def showData_button1_pressed(self):
-    self.parseData("Representative in Congress Eleventh Congressional District", 1)
-
-  def showData_button2_pressed(self):
-    self.parseData("FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT", 2)
-
-  def showData_button3_pressed(self):
-    self.parseData("REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT", 3)
-
-  def showData_button4_pressed(self):
-    self.parseData("REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT", 4)
-  
-  def showData_button5_pressed(self):
-    self.parseCookCounty()
-
-  def showData_button6_pressed(self):
-    self.parseKaneCounty()
-    self.statusArea.insertPlainText("Button Pressed6\n\n\n")
-
-  def showData_button7_pressed(self):
-    self.parseBooneCounty()
-    self.statusArea.insertPlainText("Button Pressed7\n\n\n")
-
-  def showData_button8_pressed(self):
-    self.statusArea.insertPlainText("Button Pressed8\n\n\n")
+    url = self.county8Url.toPlainText()
+    countyName = self.county8Label.toPlainText()
+    contestName = self.contestName8.toPlainText()
+    fileName = self.downloadFile(url, countyName)
 
   def processFile(self, filePath, contestName) :
     p = clarify.Parser()
@@ -156,9 +132,7 @@ class MyMainWindow(QMainWindow):
     for k, v in choiceTotals.items():
       output += k + " | " + str(v) + "\n"
 
-    #self.statusArea.inser
-
-    self.statusArea.insertPlainText(output + "\n\n\n")
+    self.statusArea.insertPlainText(filePath+" Parsed\n")
 
   def downloadFile(self, url, countyName):
     
@@ -174,23 +148,20 @@ class MyMainWindow(QMainWindow):
       elif (urlLastSegment == "zip"):
         fileExtension = "xml"
 
-    
-
     outputFile = "Data/" + countyName+"/"+dateString+"."+fileExtension
     with requests.get(url, verify=False, headers=self.requestHeaders) as resp :
-    
+      self.statusArea.insertPlainText(countyName+" Downloaded\n")
       if (urlLastSegment == "zip") :
         with zipfile.ZipFile(io.BytesIO(resp.content)) as f:
           f.extractall("Data/"+countyName)
           os.rename("Data/"+countyName + "/detail.xml", outputFile)
+          self.statusArea.insertPlainText(outputFile+" UnZipped and Saved\n")
       else :
         with open(outputFile, 'a+') as f:
           f.write(resp.text)
+          self.statusArea.insertPlainText(outputFile+" Saved\n")
       
     return outputFile
-
-    
-
 
   def parseCookCounty(self, filePath):
     output = ""
@@ -203,12 +174,8 @@ class MyMainWindow(QMainWindow):
     for candidate in candidates:
       output += candidate.text + "\n"
 
+    self.statusArea.insertPlainText(filePath+" Parsed\n")
 
-    self.statusArea.insertPlainText(output + "\n\n\n")
-
-    
-    
-  
   def parseKaneCounty(self, filePath):
     output = ""
     contents = ""
@@ -227,26 +194,8 @@ class MyMainWindow(QMainWindow):
           output += result_cols[1].text + "\n"
         break
 
-    self.statusArea.insertPlainText(output + "\n\n\n")
-    
-  def downloadBooneCounty(self):
-    url = self.county7Url.text()
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-
-    with open("booneCountyData.pdf", 'a+') as f:
-      resp = requests.get(url, verify=False, headers=headers)
-      f.write(resp.text)
-
-  def parseBooneCounty(self):
-    output = ""
-
-    tabula.convert_into("dekalbCountyData.pdf", "booneCountyData.csv", output_format="csv", pages='all')
-
-
-    #dfs = tabula.read_pdf("booneCountyData.pdf", pages='all')
-
-    self.statusArea.insertPlainText(output + "\n\n\n")
-  
+    #self.statusArea.insertPlainText(output + "\n\n\n")
+    self.statusArea.insertPlainText(filePath+" Parsed\n")
 
 app = QApplication(sys.argv)
 window = MyMainWindow()

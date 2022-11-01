@@ -14,24 +14,11 @@
    <string>Election Night Data Tracker</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="showData1Button">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>30</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Show Data</string>
-    </property>
-   </widget>
    <widget class="QPlainTextEdit" name="statusArea">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>410</y>
+      <x>40</x>
+      <y>530</y>
       <width>711</width>
       <height>261</height>
      </rect>
@@ -47,10 +34,10 @@ color: #000000</string>
    <widget class="QPlainTextEdit" name="county1Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>104</width>
-      <height>31</height>
+      <x>10</x>
+      <y>10</y>
+      <width>101</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -66,7 +53,7 @@ color: #000000</string>
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>30</y>
+      <y>10</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -75,26 +62,26 @@ color: #000000</string>
      <string>Get File</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="county1Url">
+   <widget class="QPlainTextEdit" name="county1Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>30</y>
-      <width>601</width>
-      <height>31</height>
+      <x>130</x>
+      <y>10</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>https://results.enr.clarityelections.com/IL/Lake/114135/300541/reports/detailxml.zip</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="county2Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>70</y>
-      <width>104</width>
-      <height>31</height>
+      <width>101</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -109,10 +96,10 @@ color: #000000</string>
    <widget class="QPlainTextEdit" name="county3Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>110</y>
-      <width>104</width>
-      <height>31</height>
+      <x>10</x>
+      <y>130</y>
+      <width>101</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -127,10 +114,10 @@ color: #000000</string>
    <widget class="QPlainTextEdit" name="county4Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>150</y>
+      <x>10</x>
+      <y>190</y>
       <width>104</width>
-      <height>31</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -142,42 +129,42 @@ color: #000000</string>
      <string>McHenry</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="county4Url">
+   <widget class="QPlainTextEdit" name="county4Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>150</y>
-      <width>601</width>
-      <height>31</height>
+      <x>130</x>
+      <y>190</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>https://results.enr.clarityelections.com//IL/McHenry/115186/301334/reports/detailxml.zip</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="county3Url">
+   <widget class="QPlainTextEdit" name="county3Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>110</y>
-      <width>601</width>
-      <height>31</height>
+      <x>130</x>
+      <y>130</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>https://results.enr.clarityelections.com//IL/Will/114217/300664/reports/detailxml.zip</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="county2Url">
+   <widget class="QPlainTextEdit" name="county2Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>130</x>
       <y>70</y>
-      <width>601</width>
-      <height>31</height>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>https://www.dupageresults.gov//IL/DuPage/114213/300666/reports/detailxml.zip</string>
     </property>
    </widget>
@@ -198,7 +185,7 @@ color: #000000</string>
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>110</y>
+      <y>130</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -210,8 +197,8 @@ color: #000000</string>
    <widget class="QPushButton" name="download4Button">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>150</y>
+      <x>750</x>
+      <y>190</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -220,52 +207,13 @@ color: #000000</string>
      <string>Get File</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="showData2Button">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>70</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Show Data</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="showData3Button">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>110</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Show Data</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="showData4Button">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>150</y>
-      <width>113</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Show Data</string>
-    </property>
-   </widget>
    <widget class="QPlainTextEdit" name="county5Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>200</y>
+      <x>10</x>
+      <y>250</y>
       <width>104</width>
-      <height>31</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -280,10 +228,10 @@ color: #000000</string>
    <widget class="QPlainTextEdit" name="county6Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>240</y>
+      <x>10</x>
+      <y>310</y>
       <width>104</width>
-      <height>31</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -298,10 +246,10 @@ color: #000000</string>
    <widget class="QPlainTextEdit" name="county7Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>280</y>
+      <x>10</x>
+      <y>370</y>
       <width>104</width>
-      <height>31</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -316,10 +264,10 @@ color: #000000</string>
    <widget class="QPlainTextEdit" name="county8Label">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>320</y>
-      <width>104</width>
-      <height>31</height>
+      <x>10</x>
+      <y>430</y>
+      <width>101</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -331,55 +279,58 @@ color: #000000</string>
      <string>DeKalb</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="county5Url">
+   <widget class="QPlainTextEdit" name="county5Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>200</y>
-      <width>601</width>
-      <height>31</height>
+      <x>130</x>
+      <y>250</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>https://results622.cookcountyclerkil.gov/Home/Detail?contestId=203</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="county6Url">
+   <widget class="QPlainTextEdit" name="county6Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>240</y>
-      <width>601</width>
-      <height>31</height>
+      <x>130</x>
+      <y>310</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>http://electionresults.countyofkane.org/Contests.aspx?Id=26</string>
     </property>
+    <property name="text" stdset="0">
+     <string/>
+    </property>
    </widget>
-   <widget class="QLineEdit" name="county7Url">
+   <widget class="QPlainTextEdit" name="county7Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>290</y>
-      <width>601</width>
-      <height>31</height>
+      <x>130</x>
+      <y>370</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>https://www.boonecountyil.gov/Departments/Clerk-Recorder/voting/2022_jun_28_il_boone_SOVC.pdf</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="county8Url">
+   <widget class="QPlainTextEdit" name="county8Url">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>330</y>
-      <width>601</width>
-      <height>31</height>
+      <x>130</x>
+      <y>430</y>
+      <width>271</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
+    <property name="plainText">
      <string>http://dekalb.il.clerkserve.com/wp-content/uploads/DeKalb-General-Primary-Election-Official-Results-06-28-2022-1.pdf</string>
     </property>
    </widget>
@@ -387,7 +338,7 @@ color: #000000</string>
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>200</y>
+      <y>250</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -400,7 +351,7 @@ color: #000000</string>
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>240</y>
+      <y>300</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -412,8 +363,8 @@ color: #000000</string>
    <widget class="QPushButton" name="download7Button">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>290</y>
+      <x>780</x>
+      <y>360</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -426,7 +377,7 @@ color: #000000</string>
     <property name="geometry">
      <rect>
       <x>770</x>
-      <y>330</y>
+      <y>440</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -435,56 +386,108 @@ color: #000000</string>
      <string>Get File</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="showData5Button">
+   <widget class="QPlainTextEdit" name="contestName1">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>200</y>
-      <width>113</width>
-      <height>32</height>
+      <x>410</x>
+      <y>10</y>
+      <width>251</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Show Data</string>
+    <property name="plainText">
+     <string>Representative in Congress Eleventh Congressional District</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="showData6Button">
+   <widget class="QPlainTextEdit" name="contestName2">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>240</y>
-      <width>113</width>
-      <height>32</height>
+      <x>410</x>
+      <y>70</y>
+      <width>251</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Show Data</string>
+    <property name="plainText">
+     <string>FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="showData7Button">
+   <widget class="QPlainTextEdit" name="contestName3">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>290</y>
-      <width>113</width>
-      <height>32</height>
+      <x>410</x>
+      <y>130</y>
+      <width>251</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Show Data</string>
+    <property name="plainText">
+     <string>REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="showData8Button">
+   <widget class="QPlainTextEdit" name="contestName4">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>330</y>
-      <width>113</width>
-      <height>32</height>
+      <x>410</x>
+      <y>190</y>
+      <width>251</width>
+      <height>51</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Show Data</string>
+    <property name="plainText">
+     <string>REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="contestName5">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>250</y>
+      <width>251</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>x</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="contestName6">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>310</y>
+      <width>251</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>x</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="contestName7">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>370</y>
+      <width>251</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>x</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="contestName8">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>430</y>
+      <width>251</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="plainText">
+     <string>x</string>
     </property>
    </widget>
   </widget>
