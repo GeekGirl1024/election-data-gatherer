@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import QMainWindow
 from PyQt6 import uic
 
 from bs4 import BeautifulSoup
+from tomlkit import date
 
 class MyMainWindow(QMainWindow):
   requestHeaders = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
@@ -48,31 +49,47 @@ class MyMainWindow(QMainWindow):
     self.download7Button.clicked.connect(self.download_button7_pressed)
     self.download8Button.clicked.connect(self.download_button8_pressed)
 
+  def getTimeString(self):
+    now = datetime.now()
+    dateString = now.strftime("%Y%m%d-%H%M%S")
+    return dateString
+
   def download_button1_pressed(self):
     url = self.county1Url.text()
     countyName = self.county1Label.toPlainText()
-    self.downloadFile(url, countyName, "Representative in Congress Eleventh Congressional District")
+    fileName = self.downloadFile(url, countyName)
+    self.processFile(fileName, "Representative in Congress Eleventh Congressional District")
 
   def download_button2_pressed(self):
     url = self.county2Url.text()
-    countyName = self.county2Label.text()
-    self.downloadFile(url, countyName, "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
+    countyName = self.county2Label.toPlainText()
+    fileName = self.downloadFile(url, countyName)
+    self.processFile(fileName, "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
 
   def download_button3_pressed(self):
     url = self.county3Url.text()
-    countyName = self.county3Label.text()
-    self.downloadFile(url, countyName, "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
+    countyName = self.county3Label.toPlainText()
+    fileName = self.downloadFile(url, countyName)
+    self.processFile(fileName, "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
+    
 
   def download_button4_pressed(self):
     url = self.county4Url.text()
-    countyName = self.county4Label.text()
-    self.downloadFile(url, countyName, "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT")
+    countyName = self.county4Label.toPlainText()
+    fileName = self.downloadFile(url, countyName)
+    self.processFile(fileName, "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT")
 
   def download_button5_pressed(self):
-    self.downloadCookCounty()
+    url = self.county5Url.text()
+    countyName = self.county5Label.toPlainText()
+    fileName = self.downloadFile(url, countyName)
+    self.parseCookCounty(fileName)
 
   def download_button6_pressed(self):
-    self.downloadKaneCounty()
+    url = self.county6Url.text()
+    countyName = self.county6Label.toPlainText()
+    fileName = self.downloadFile(url, countyName)
+    self.parseKaneCounty(fileName)
 
   def download_button7_pressed(self):
     url = self.county7Url.text()
@@ -107,22 +124,10 @@ class MyMainWindow(QMainWindow):
   def showData_button8_pressed(self):
     self.statusArea.insertPlainText("Button Pressed8\n\n\n")
 
-  def downloadFile(self, url, countyName, contestName):
-    now = datetime.now()
-    dateString = now.strftime("%Y%m%d-%H%M%S")
-    resp = requests.get(url, verify=False, headers=self.requestHeaders)
-      
-    with zipfile.ZipFile(io.BytesIO(resp.content)) as f:
-      f.extractall(countyName)
-    
-    os.rename(countyName + "/detail.xml", countyName+"/"+dateString+".xml")
-
-
-
-
+  def processFile(self, filePath, contestName) :
     p = clarify.Parser()
     
-    p.parse(countyName+"/"+dateString+".xml")
+    p.parse(filePath)
 
     contest = p.get_contest(contestName)
     
@@ -155,18 +160,42 @@ class MyMainWindow(QMainWindow):
 
     self.statusArea.insertPlainText(output + "\n\n\n")
 
-  def downloadCookCounty(self):
-    url = self.county5Url.text()
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+  def downloadFile(self, url, countyName):
+    
+    dateString = self.getTimeString()
+    urlSegments = url.split(".")
+    fileExtension = "html"
+    if (len(urlSegments) > 0):
+      urlLastSegment = urlSegments[-1].lower()
+      if (urlLastSegment == "xml"):
+        fileExtension = "xml"
+      elif (urlLastSegment == "pdf"):
+        fileExtension = "pdf"
+      elif (urlLastSegment == "zip"):
+        fileExtension = "xml"
 
-    with open("cookCountyData.html", 'a+') as f:
-      resp = requests.get(url, verify=False, headers=headers)
-      f.write(resp.text)
+    
 
-  def parseCookCounty(self):
+    outputFile = "Data/" + countyName+"/"+dateString+"."+fileExtension
+    with requests.get(url, verify=False, headers=self.requestHeaders) as resp :
+    
+      if (urlLastSegment == "zip") :
+        with zipfile.ZipFile(io.BytesIO(resp.content)) as f:
+          f.extractall("Data/"+countyName)
+          os.rename("Data/"+countyName + "/detail.xml", outputFile)
+      else :
+        with open(outputFile, 'a+') as f:
+          f.write(resp.text)
+      
+    return outputFile
+
+    
+
+
+  def parseCookCounty(self, filePath):
     output = ""
     contents = ""
-    with open("cookCountyData.html", 'r') as f:
+    with open(filePath, 'r') as f:
       contents = f.read()
     soup = BeautifulSoup(contents, 'html.parser')
     candidates = soup.find_all("td", {"class": "candidate"})
@@ -177,19 +206,13 @@ class MyMainWindow(QMainWindow):
 
     self.statusArea.insertPlainText(output + "\n\n\n")
 
-
-  def downloadKaneCounty(self):
-    url = self.county6Url.text()
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-
-    with open("kaneCountyData.html", 'a+') as f:
-      resp = requests.get(url, verify=False, headers=headers)
-      f.write(resp.text)
+    
+    
   
-  def parseKaneCounty(self):
+  def parseKaneCounty(self, filePath):
     output = ""
     contents = ""
-    with open("kaneCountyData.html", 'r') as f:
+    with open(filePath, 'r') as f:
       contents = f.read()
     soup = BeautifulSoup(contents, 'html.parser')
     choices = soup.find_all("table", {"class": "choice"})
