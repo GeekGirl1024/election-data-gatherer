@@ -1,6 +1,7 @@
 """
 This is a basic hello world application to show how to create a python gui
 """
+from datetime import datetime
 import os
 import io
 import sys
@@ -11,6 +12,7 @@ import zipfile
 import clarify
 import requests
 
+import tabula
 
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtWidgets import QMainWindow
@@ -19,6 +21,8 @@ from PyQt6 import uic
 from bs4 import BeautifulSoup
 
 class MyMainWindow(QMainWindow):
+  requestHeaders = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
   """My Main Window Class"""
   def __init__(self):
     super(MyMainWindow, self).__init__()
@@ -46,19 +50,23 @@ class MyMainWindow(QMainWindow):
 
   def download_button1_pressed(self):
     url = self.county1Url.text()
-    self.downloadFile(url, 1)
+    countyName = self.county1Label.toPlainText()
+    self.downloadFile(url, countyName, "Representative in Congress Eleventh Congressional District")
 
   def download_button2_pressed(self):
     url = self.county2Url.text()
-    self.downloadFile(url, 2)
+    countyName = self.county2Label.text()
+    self.downloadFile(url, countyName, "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
 
   def download_button3_pressed(self):
     url = self.county3Url.text()
-    self.downloadFile(url, 3)
+    countyName = self.county3Label.text()
+    self.downloadFile(url, countyName, "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT")
 
   def download_button4_pressed(self):
     url = self.county4Url.text()
-    self.downloadFile(url, 4)
+    countyName = self.county4Label.text()
+    self.downloadFile(url, countyName, "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT")
 
   def download_button5_pressed(self):
     self.downloadCookCounty()
@@ -68,6 +76,7 @@ class MyMainWindow(QMainWindow):
 
   def download_button7_pressed(self):
     url = self.county7Url.text()
+    self.downloadBooneCounty()
 
   def download_button8_pressed(self):
     url = self.county8Url.text()
@@ -92,32 +101,28 @@ class MyMainWindow(QMainWindow):
     self.statusArea.insertPlainText("Button Pressed6\n\n\n")
 
   def showData_button7_pressed(self):
+    self.parseBooneCounty()
     self.statusArea.insertPlainText("Button Pressed7\n\n\n")
 
   def showData_button8_pressed(self):
     self.statusArea.insertPlainText("Button Pressed8\n\n\n")
 
-  def downloadFile(self, url, countyNumber):
+  def downloadFile(self, url, countyName, contestName):
+    now = datetime.now()
+    dateString = now.strftime("%Y%m%d-%H%M%S")
+    resp = requests.get(url, verify=False, headers=self.requestHeaders)
+      
+    with zipfile.ZipFile(io.BytesIO(resp.content)) as f:
+      f.extractall(countyName)
     
-    extract_dir = "data"
-    countyNumberString = str(countyNumber)
+    os.rename(countyName + "/detail.xml", countyName+"/"+dateString+".xml")
 
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
-    with open("zip/myzip"+countyNumberString+".zip", 'wb') as f:
-      resp = requests.get(url, verify=False, headers=headers)
-      f.write(resp.content)
 
-    with zipfile.ZipFile("zip/myzip"+countyNumberString+".zip", "r") as f:
-        f.extractall("data"+countyNumberString)
-
-  def parseData(self, contestName, countyNumber):
-    """callback function when button is clicked"""
-
-    countyNumberString = str(countyNumber)
 
     p = clarify.Parser()
-    p.parse("data"+countyNumberString+"/detail.xml")
+    
+    p.parse(countyName+"/"+dateString+".xml")
 
     contest = p.get_contest(contestName)
     
@@ -201,7 +206,24 @@ class MyMainWindow(QMainWindow):
 
     self.statusArea.insertPlainText(output + "\n\n\n")
     
+  def downloadBooneCounty(self):
+    url = self.county7Url.text()
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
+    with open("booneCountyData.pdf", 'a+') as f:
+      resp = requests.get(url, verify=False, headers=headers)
+      f.write(resp.text)
+
+  def parseBooneCounty(self):
+    output = ""
+
+    tabula.convert_into("dekalbCountyData.pdf", "booneCountyData.csv", output_format="csv", pages='all')
+
+
+    #dfs = tabula.read_pdf("booneCountyData.pdf", pages='all')
+
+    self.statusArea.insertPlainText(output + "\n\n\n")
+  
 
 app = QApplication(sys.argv)
 window = MyMainWindow()

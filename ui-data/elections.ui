@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Hello World from QT Designer</string>
+   <string>Election Night Data Tracker</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="showData1Button">
@@ -59,7 +59,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>Lake County</string>
+     <string>Lake</string>
     </property>
    </widget>
    <widget class="QPushButton" name="download1Button">
@@ -103,7 +103,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>DuPage County</string>
+     <string>DuPage</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="county3Label">
@@ -121,7 +121,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>Will County</string>
+     <string>Will</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="county4Label">
@@ -139,7 +139,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>McHenry County</string>
+     <string>McHenry</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="county4Url">
@@ -274,7 +274,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>Cook County</string>
+     <string>Cook</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="county6Label">
@@ -292,7 +292,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>Kane County</string>
+     <string>Kane</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="county7Label">
@@ -310,7 +310,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>Boone County</string>
+     <string>Boone</string>
     </property>
    </widget>
    <widget class="QPlainTextEdit" name="county8Label">
@@ -328,7 +328,7 @@ color: #000000</string>
      </font>
     </property>
     <property name="plainText">
-     <string>DeKalb County</string>
+     <string>DeKalb</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="county5Url">
