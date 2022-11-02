@@ -1,0 +1,3 @@
+class Election:
+  name = ""
+  counties = []
