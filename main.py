@@ -8,6 +8,7 @@ import sys
 import zipfile
 
 import clarify
+from numpy import append
 import requests
 
 from PyQt6.QtWidgets import QApplication
@@ -16,13 +17,16 @@ from PyQt6 import uic
 
 from bs4 import BeautifulSoup
 from datetime import datetime
-
-import county
+from election import Election
+from county import County
+from candidate import Candidate
+from results import Results
 
 
 
 class MyMainWindow(QMainWindow):
   requestHeaders = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+  election = Election()
 
   """My Main Window Class"""
   def __init__(self):
@@ -41,6 +45,61 @@ class MyMainWindow(QMainWindow):
     self.download7Button.clicked.connect(self.download_button7_pressed)
     self.download8Button.clicked.connect(self.download_button8_pressed)
 
+    self.bill = Candidate()
+    self.bill.name = "Bill"
+    self.bill.votes = 0
+
+    self.catalina = Candidate()
+    self.catalina.name = "Catalina"
+    self.catalina.votes = 0
+
+    self.lakeCounty = County()
+    self.lakeCounty.name = "Lake"
+    self.lakeCounty.clarify = True
+    
+    self.election.counties.append(self.lakeCounty)
+
+    self.dupageCounty = County()
+    self.dupageCounty.name = "Dupage"
+    self.dupageCounty.clarify = True
+    
+    
+    self.election.counties.append(self.dupageCounty)
+
+    self.willCounty = County()
+    self.willCounty.name = "Will"
+    self.willCounty.clarify = True
+    
+    self.election.counties.append(self.willCounty)
+
+    self.mcHenryCounty = County()
+    self.mcHenryCounty.name = "McHenry"
+    self.mcHenryCounty.clarify = True
+    
+    self.election.counties.append(self.mcHenryCounty)
+
+    self.cookCounty = County()
+    self.cookCounty.name = "Cook"
+    
+    self.election.counties.append(self.cookCounty)
+
+    self.kaneCounty = County()
+    self.kaneCounty.name = "Kane"
+    
+    self.election.counties.append(self.kaneCounty)
+
+    self.booneCounty = County()
+    self.booneCounty.name = "Boone"
+    
+    self.election.counties.append(self.booneCounty)
+
+
+    self.deKalbCounty = County()
+    self.deKalbCounty.name = "DeKalb"
+    
+    self.election.counties.append(self.deKalbCounty)
+
+
   def getTimeString(self):
     now = datetime.now()
     dateString = now.strftime("%Y%m%d-%H-%M-%S")
@@ -51,28 +110,49 @@ class MyMainWindow(QMainWindow):
     countyName = self.county1Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName1.toPlainText()
-    self.processFile(fileName, contestName)
+    myResults = self.processFile(fileName, contestName)
+    self.election.counties[0].results.append(myResults)
+    self.election.getCurrentState()
+
+    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
+    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+
 
   def download_button2_pressed(self):
     url = self.county2Url.toPlainText()
     countyName = self.county2Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName2.toPlainText()
-    self.processFile(fileName, contestName)
+    myResults = self.processFile(fileName, contestName)
+    self.election.counties[1].results.append(myResults)
+    self.election.getCurrentState()
+
+    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
+    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
 
   def download_button3_pressed(self):
     url = self.county3Url.toPlainText()
     countyName = self.county3Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName3.toPlainText()
-    self.processFile(fileName, contestName)
+    myResults = self.processFile(fileName, contestName)
+    self.election.counties[2].results.append(myResults)
+    self.election.getCurrentState()
+
+    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
+    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
 
   def download_button4_pressed(self):
     url = self.county4Url.toPlainText()
     countyName = self.county4Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName4.toPlainText()
-    self.processFile(fileName, contestName)
+    myResults = self.processFile(fileName, contestName)
+    self.election.counties[3].results.append(myResults)
+    self.election.getCurrentState()
+
+    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
+    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
 
   def download_button5_pressed(self):
     url = self.county5Url.toPlainText()
@@ -122,17 +202,31 @@ class MyMainWindow(QMainWindow):
           continue
         #output += result.choice.text + " | " + result.vote_type + " | " + str(result.votes) + "\n"
 
-        if result.choice.text not in choiceTotals:
-          choiceTotals[result.choice.text] = 0
+        candidateName = result.choice.text.lower()
+        if candidateName not in choiceTotals:
+          choiceTotals[candidateName] = 0
         
-        choiceTotals[result.choice.text] += result.votes
+        choiceTotals[candidateName] += result.votes
+
+        "Catalina Lauf"
+        "Bill Foster"
 
 
 
     for k, v in choiceTotals.items():
       output += k + " | " + str(v) + "\n"
 
+    countyResults = Results()
+    if "catalina lauf" in choiceTotals:
+      countyResults.republican.votes = choiceTotals["catalina lauf"]
+    
+    if "bill foster" in choiceTotals:
+      countyResults.democrat.votes = choiceTotals["bill foster"]
+    
+    
+
     self.statusArea.insertPlainText(filePath+" Parsed\n")
+    return countyResults
 
   def downloadFile(self, url, countyName):
     
