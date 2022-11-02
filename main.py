@@ -20,7 +20,7 @@ from datetime import datetime
 from election import Election
 from county import County
 from candidate import Candidate
-from results import Results
+from result import Result
 
 
 
@@ -110,49 +110,62 @@ class MyMainWindow(QMainWindow):
     countyName = self.county1Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName1.toPlainText()
-    myResults = self.processFile(fileName, contestName)
-    self.election.counties[0].results.append(myResults)
+    myResult = self.processFile(fileName, contestName)
+    county = self.election.counties[0]
+    county.results.append(myResult)
     self.election.getCurrentState()
 
     self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
     self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
 
+    
+    self.resultText1.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
+    self.resultText1.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
 
   def download_button2_pressed(self):
     url = self.county2Url.toPlainText()
     countyName = self.county2Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName2.toPlainText()
-    myResults = self.processFile(fileName, contestName)
-    self.election.counties[1].results.append(myResults)
+    myResult = self.processFile(fileName, contestName)
+    self.election.counties[1].results.append(myResult)
     self.election.getCurrentState()
 
     self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
     self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+
+    self.resultText2.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
+    self.resultText2.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
 
   def download_button3_pressed(self):
     url = self.county3Url.toPlainText()
     countyName = self.county3Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName3.toPlainText()
-    myResults = self.processFile(fileName, contestName)
-    self.election.counties[2].results.append(myResults)
+    myResult = self.processFile(fileName, contestName)
+    self.election.counties[2].results.append(myResult)
     self.election.getCurrentState()
 
     self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
     self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+
+    self.resultText3.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
+    self.resultText3.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
 
   def download_button4_pressed(self):
     url = self.county4Url.toPlainText()
     countyName = self.county4Label.toPlainText()
     fileName = self.downloadFile(url, countyName)
     contestName = self.contestName4.toPlainText()
-    myResults = self.processFile(fileName, contestName)
-    self.election.counties[3].results.append(myResults)
+    myResult = self.processFile(fileName, contestName)
+    self.election.counties[3].results.append(myResult)
     self.election.getCurrentState()
 
     self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
     self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+
+    self.resultText4.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
+    self.resultText4.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
 
   def download_button5_pressed(self):
     url = self.county5Url.toPlainText()
@@ -216,7 +229,7 @@ class MyMainWindow(QMainWindow):
     for k, v in choiceTotals.items():
       output += k + " | " + str(v) + "\n"
 
-    countyResults = Results()
+    countyResults = Result()
     if "catalina lauf" in choiceTotals:
       countyResults.republican.votes = choiceTotals["catalina lauf"]
     
@@ -266,9 +279,14 @@ class MyMainWindow(QMainWindow):
     candidates = soup.find_all("td", {"class": "candidate"})
 
     for candidate in candidates:
-      output += candidate.text + "\n"
+      
+
+      candidateName = candidate.text.replace("\"", "").strip()
+      output += candidateName + "\n"
 
     self.statusArea.insertPlainText(filePath+" Parsed\n")
+
+    self.statusArea.insertPlainText(output + "\n")
 
   def parseKaneCounty(self, filePath):
     output = ""

@@ -55,7 +55,7 @@ color: #000000</string>
    <widget class="QPushButton" name="download1Button">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>900</x>
       <y>10</y>
       <width>113</width>
       <height>32</height>
@@ -174,7 +174,7 @@ color: #000000</string>
    <widget class="QPushButton" name="download2Button">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>900</x>
       <y>70</y>
       <width>113</width>
       <height>32</height>
@@ -187,7 +187,7 @@ color: #000000</string>
    <widget class="QPushButton" name="download3Button">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>900</x>
       <y>130</y>
       <width>113</width>
       <height>32</height>
@@ -200,7 +200,7 @@ color: #000000</string>
    <widget class="QPushButton" name="download4Button">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>900</x>
       <y>190</y>
       <width>113</width>
       <height>32</height>
@@ -340,7 +340,7 @@ color: #000000</string>
    <widget class="QPushButton" name="download5Button">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>900</x>
       <y>250</y>
       <width>113</width>
       <height>32</height>
@@ -353,8 +353,8 @@ color: #000000</string>
    <widget class="QPushButton" name="download6Button">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>300</y>
+      <x>900</x>
+      <y>310</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -366,8 +366,8 @@ color: #000000</string>
    <widget class="QPushButton" name="download7Button">
     <property name="geometry">
      <rect>
-      <x>780</x>
-      <y>360</y>
+      <x>900</x>
+      <y>370</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -379,8 +379,8 @@ color: #000000</string>
    <widget class="QPushButton" name="download8Button">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>440</y>
+      <x>900</x>
+      <y>430</y>
       <width>113</width>
       <height>32</height>
      </rect>
@@ -491,6 +491,86 @@ color: #000000</string>
     </property>
     <property name="plainText">
      <string>x</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText1">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>10</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText2">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>70</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText3">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>130</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText4">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>190</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText7">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>370</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText6">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>310</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText5">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>250</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="resultText8">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>430</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
     </property>
    </widget>
   </widget>

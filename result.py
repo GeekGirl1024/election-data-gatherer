@@ -3,9 +3,7 @@ from datetime import datetime
 
 from candidate import Candidate
 
-class Results:
-  
-
+class Result:
   def __init__(self):
     self.timestamp = datetime.now()
     self.democrat = Candidate()
