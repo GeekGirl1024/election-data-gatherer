@@ -1,25 +1,25 @@
 """
-This is a basic hello world application to show how to create a python gui
+This is an application to get latest information from various counties
 """
-from datetime import datetime
+
 import os
 import io
 import sys
-
-import urllib
 import zipfile
 
 import clarify
 import requests
-
-import tabula
 
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtWidgets import QMainWindow
 from PyQt6 import uic
 
 from bs4 import BeautifulSoup
-from tomlkit import date
+from datetime import datetime
+
+import county
+
+
 
 class MyMainWindow(QMainWindow):
   requestHeaders = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}

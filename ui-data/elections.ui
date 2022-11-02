@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1032</width>
-    <height>761</height>
+    <height>734</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,15 +17,18 @@
    <widget class="QPlainTextEdit" name="statusArea">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>530</y>
-      <width>711</width>
-      <height>261</height>
+      <x>10</x>
+      <y>490</y>
+      <width>651</width>
+      <height>181</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background: rgb(250, 255, 137);
 color: #000000</string>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
     </property>
     <property name="overwriteMode">
      <bool>true</bool>
