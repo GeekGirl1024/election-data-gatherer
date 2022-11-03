@@ -115,8 +115,7 @@ class MyMainWindow(QMainWindow):
     county.results.append(myResult)
     self.election.getCurrentState()
 
-    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
-    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+    self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
 
     
     self.resultText1.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
@@ -131,8 +130,7 @@ class MyMainWindow(QMainWindow):
     self.election.counties[1].results.append(myResult)
     self.election.getCurrentState()
 
-    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
-    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+    self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
 
     self.resultText2.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
     self.resultText2.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
@@ -146,8 +144,7 @@ class MyMainWindow(QMainWindow):
     self.election.counties[2].results.append(myResult)
     self.election.getCurrentState()
 
-    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
-    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+    self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
 
     self.resultText3.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
     self.resultText3.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
@@ -161,8 +158,7 @@ class MyMainWindow(QMainWindow):
     self.election.counties[3].results.append(myResult)
     self.election.getCurrentState()
 
-    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
-    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+    self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
 
     self.resultText4.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
     self.resultText4.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
@@ -177,8 +173,7 @@ class MyMainWindow(QMainWindow):
     self.election.counties[4].results.append(myResult)
     self.election.getCurrentState()
 
-    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
-    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+    self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
 
     self.resultText5.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
     self.resultText5.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
@@ -193,8 +188,8 @@ class MyMainWindow(QMainWindow):
     self.election.counties[5].results.append(myResult)
     self.election.getCurrentState()
 
-    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
-    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+    self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
+    
 
     self.resultText6.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
     self.resultText6.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")

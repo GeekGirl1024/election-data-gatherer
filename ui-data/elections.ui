@@ -573,6 +573,16 @@ color: #000000</string>
      </rect>
     </property>
    </widget>
+   <widget class="QPlainTextEdit" name="resultsTextEdit">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>490</y>
+      <width>221</width>
+      <height>181</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
