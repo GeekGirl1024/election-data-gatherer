@@ -1,6 +1,8 @@
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
 from datetime import datetime
 from candidate import Candidate
 from result import Result
+
 class County:
   def __init__(self):
     self.timestamp = datetime.now()

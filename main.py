@@ -11,8 +11,7 @@ import clarify
 from numpy import append
 import requests
 
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
 from PyQt6 import uic
 
 from bs4 import BeautifulSoup
@@ -45,6 +44,8 @@ class MyMainWindow(QMainWindow):
     self.download7Button.clicked.connect(self.download_button7_pressed)
     self.download8Button.clicked.connect(self.download_button8_pressed)
 
+
+
     self.bill = Candidate()
     self.bill.name = "Bill"
     self.bill.votes = 0
@@ -56,12 +57,16 @@ class MyMainWindow(QMainWindow):
     self.lakeCounty = County()
     self.lakeCounty.name = "Lake"
     self.lakeCounty.clarify = True
+    self.lakeCounty.url = "https://results.enr.clarityelections.com/IL/Lake/114135/300541/reports/detailxml.zip"
+    self.lakeCounty.raceName = "Representative in Congress Eleventh Congressional District"
     
     self.election.counties.append(self.lakeCounty)
 
     self.dupageCounty = County()
     self.dupageCounty.name = "Dupage"
     self.dupageCounty.clarify = True
+    self.dupageCounty.url = "https://www.dupageresults.gov//IL/DuPage/114213/300666/reports/detailxml.zip"
+    self.dupageCounty.raceName = "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
     
     
     self.election.counties.append(self.dupageCounty)
@@ -69,33 +74,45 @@ class MyMainWindow(QMainWindow):
     self.willCounty = County()
     self.willCounty.name = "Will"
     self.willCounty.clarify = True
+    self.lakeCounty.url = "https://results.enr.clarityelections.com//IL/Will/114217/300664/reports/detailxml.zip"
+    self.lakeCounty.raceName = "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
     
     self.election.counties.append(self.willCounty)
 
     self.mcHenryCounty = County()
     self.mcHenryCounty.name = "McHenry"
     self.mcHenryCounty.clarify = True
-    
+    self.lakeCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115186/301334/reports/detailxml.zip"
+    self.lakeCounty.raceName = "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT"
+
     self.election.counties.append(self.mcHenryCounty)
 
     self.cookCounty = County()
     self.cookCounty.name = "Cook"
+    self.cookCounty.url = "https://results622.cookcountyclerkil.gov/Home/Detail?contestId=203"
+
     
     self.election.counties.append(self.cookCounty)
 
     self.kaneCounty = County()
     self.kaneCounty.name = "Kane"
+    self.kaneCounty.url = "http://electionresults.countyofkane.org/Contests.aspx?Id=26"
+
     
     self.election.counties.append(self.kaneCounty)
 
     self.booneCounty = County()
     self.booneCounty.name = "Boone"
+    self.booneCounty.url = "https://www.boonecountyil.gov/Departments/Clerk-Recorder/voting/2022_jun_28_il_boone_SOVC.pdf"
+
     
     self.election.counties.append(self.booneCounty)
 
 
     self.deKalbCounty = County()
     self.deKalbCounty.name = "DeKalb"
+    self.deKalbCounty.url = "http://dekalb.il.clerkserve.com/wp-content/uploads/DeKalb-General-Primary-Election-Official-Results-06-28-2022-1.pdf"
+
     
     self.election.counties.append(self.deKalbCounty)
 
