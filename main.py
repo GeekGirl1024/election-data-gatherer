@@ -172,14 +172,32 @@ class MyMainWindow(QMainWindow):
     countyName = self.county5Label.toPlainText()
     contestName = self.contestName5.toPlainText()
     fileName = self.downloadFile(url, countyName)
-    self.parseCookCounty(fileName)
+    myResult = self.parseCookCounty(fileName)
+
+    self.election.counties[4].results.append(myResult)
+    self.election.getCurrentState()
+
+    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
+    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+
+    self.resultText5.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
+    self.resultText5.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
 
   def download_button6_pressed(self):
     url = self.county6Url.toPlainText()
     countyName = self.county6Label.toPlainText()
     contestName = self.contestName6.toPlainText()
     fileName = self.downloadFile(url, countyName)
-    self.parseKaneCounty(fileName)
+    myResult = self.parseKaneCounty(fileName)
+
+    self.election.counties[5].results.append(myResult)
+    self.election.getCurrentState()
+
+    self.statusArea.insertPlainText("Dems:" + str(self.election.democratTotal) + "\n")
+    self.statusArea.insertPlainText("GOP:" + str(self.election.republicanTotal) + "\n")
+
+    self.resultText6.insertPlainText("Dems:" + str(myResult.democrat.votes) + "\n")
+    self.resultText6.insertPlainText("GOP:" + str(myResult.republican.votes) + "\n")
 
   def download_button7_pressed(self):
     url = self.county7Url.toPlainText()
@@ -278,17 +296,31 @@ class MyMainWindow(QMainWindow):
     soup = BeautifulSoup(contents, 'html.parser')
     candidates = soup.find_all("td", {"class": "candidate"})
 
+    returnResult = Result()
+
     for candidate in candidates:
-      
+
+      voteNode = candidate.find_next_sibling("td")
+      voteString = voteNode.text.replace("\"", "").strip()
+      voteCount = int(voteString)
 
       candidateName = candidate.text.replace("\"", "").strip()
       output += candidateName + "\n"
+
+      if "catalina" in candidateName.lower():
+        returnResult.republican.votes = voteCount
+
+      if "foster" in candidateName.lower():
+        returnResult.democrat.votes = voteCount
 
     self.statusArea.insertPlainText(filePath+" Parsed\n")
 
     self.statusArea.insertPlainText(output + "\n")
 
+    return returnResult
+
   def parseKaneCounty(self, filePath):
+    returnResult = Result()
     output = ""
     contents = ""
     with open(filePath, 'r') as f:
@@ -300,14 +332,23 @@ class MyMainWindow(QMainWindow):
       header2 = choice.find("h2")
       if ( header2 and ("11TH CONGRESSIONAL DISTRICT REPRESENTATIVE IN CONGRESS" in header2.text)):
         result_table = choice.find_next_sibling("table")
-        result_rows = result_table.find_all("tr")
+        result_rows = result_table.find_all(recursive=False)
         for result_row in result_rows :
           result_cols = result_row.find_all(recursive=False)
-          output += result_cols[1].text + "\n"
-        break
+          
+          candidateName = result_cols[1].text.replace("<b>", "").replace("</b>", "").strip()
+          voteString = result_cols[2].find_all("b")[0].text.replace("<b>", "").replace("</b>", "").strip()
+          voteint = int(voteString)
+          if "catalina" in candidateName.lower() :
+            returnResult.republican.votes = voteint
+          if "foster" in candidateName.lower() :
+            returnResult.democrat.votes = voteint
+          output +=  candidateName + " " + voteString + "\n"
+    
 
     #self.statusArea.insertPlainText(output + "\n\n\n")
     self.statusArea.insertPlainText(filePath+" Parsed\n")
+    return returnResult
 
 app = QApplication(sys.argv)
 window = MyMainWindow()
