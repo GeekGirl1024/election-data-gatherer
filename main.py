@@ -26,7 +26,7 @@ lakeCounty = County()
 lakeCounty.name = "Lake"
 lakeCounty.clarify = True
 lakeCounty.url = "https://results.enr.clarityelections.com/IL/Lake/114135/300541/reports/detailxml.zip"
-lakeCounty.raceName = "Representative in Congress Eleventh Congressional District"
+lakeCounty.contestName = "Representative in Congress Eleventh Congressional District"
   
 election.counties.append(lakeCounty)
 
@@ -34,7 +34,7 @@ dupageCounty = County()
 dupageCounty.name = "Dupage"
 dupageCounty.clarify = True
 dupageCounty.url = "https://www.dupageresults.gov//IL/DuPage/114213/300666/reports/detailxml.zip"
-dupageCounty.raceName = "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
+dupageCounty.contestName = "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
   
   
 election.counties.append(dupageCounty)
@@ -42,16 +42,16 @@ election.counties.append(dupageCounty)
 willCounty = County()
 willCounty.name = "Will"
 willCounty.clarify = True
-lakeCounty.url = "https://results.enr.clarityelections.com//IL/Will/114217/300664/reports/detailxml.zip"
-lakeCounty.raceName = "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
+willCounty.url = "https://results.enr.clarityelections.com//IL/Will/114217/300664/reports/detailxml.zip"
+willCounty.contestName = "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
   
 election.counties.append(willCounty)
 
 mcHenryCounty = County()
 mcHenryCounty.name = "McHenry"
 mcHenryCounty.clarify = True
-lakeCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115186/301334/reports/detailxml.zip"
-lakeCounty.raceName = "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT"
+mcHenryCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115186/301334/reports/detailxml.zip"
+mcHenryCounty.contestName = "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT"
 
 election.counties.append(mcHenryCounty)
 
@@ -86,6 +86,7 @@ election.counties.append(deKalbCounty)
 
 app = QApplication(sys.argv)
 window = MainWindow(election)
+
 window.load()
 window.show()
 sys.exit(app.exec())

@@ -12,7 +12,7 @@ import os
 import io
 
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit, QPlainTextEdit, QLayout
 from PyQt6 import uic
 
 import clarify
@@ -40,6 +40,12 @@ class MainWindow(QMainWindow):
     self.download8Button.clicked.connect(self.download_button8_pressed)
 
 
+    self.election.createUi(self)
+    
+
+    #self.centralWidget()
+    
+
 
     self.bill = Candidate()
     self.bill.name = "Bill"
@@ -50,7 +56,11 @@ class MainWindow(QMainWindow):
     self.catalina.votes = 0
 
     
-
+  def __getitem__(self, key):
+    return getattr(self, key)
+  
+  def __setitem__(self, key, value):
+    setattr(self, key, value)
 
   def getTimeString(self):
     now = datetime.now()

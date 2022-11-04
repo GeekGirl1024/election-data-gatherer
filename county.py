@@ -10,6 +10,7 @@ class County:
     self.name = ""
     self.contestName = ""
     self.results = []
+    self.url = ""
   
   def getCurrentResults(self) :
     

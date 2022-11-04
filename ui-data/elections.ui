@@ -24,8 +24,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background: rgb(250, 255, 137);
-color: #000000</string>
+     <string notr="true">background: rgb(250, 255, 137);color: #000000</string>
     </property>
     <property name="readOnly">
      <bool>false</bool>
