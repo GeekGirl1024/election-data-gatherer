@@ -28,8 +28,8 @@ class Election:
     layout = window.layout()
 
     for county in self.counties:
-      x = 20
-      y = 20 + (i)*70
+      x = 10
+      y = 10 + (i)*60
       label = QPlainTextEdit()
       label.move(x, y)
       label.resize(100, 50)
@@ -41,8 +41,8 @@ class Election:
 
 
       urlBox = QPlainTextEdit()
-      urlBox.resize(270, 50)
-      urlBox.move(x + 120, y)
+      urlBox.resize(280, 50)
+      urlBox.move(x + 110, y)
       urlBox.setPlainText(county.url)
 
       county.urlBox = urlBox
