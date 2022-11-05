@@ -5,7 +5,8 @@ from candidate import Candidate
 
 class Result:
   def __init__(self):
-    self.timestamp = datetime.now()
+    self.downloadTime = datetime.now()
+    self.updateTime = ""
     self.hash = ""
     self.democrat = Candidate()
     self.democrat.name = "Bill"

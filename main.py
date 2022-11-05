@@ -29,6 +29,11 @@ def parseCookCounty(self, filePath):
 
     returnResult = Result()
 
+    side = soup.find("div", {"id": "collapseOne"})
+    updateTime = side.find("div", {"class": "text-center"})
+
+    returnResult.updateTime = updateTime.text.strip()
+
     for candidate in candidates:
 
       voteNode = candidate.find_next_sibling("td")
@@ -55,6 +60,11 @@ def parseKaneCounty(self, filePath):
   with open(filePath, 'r') as f:
     contents = f.read()
   soup = BeautifulSoup(contents, 'html.parser')
+
+  form = soup.find("form")
+
+  returnResult.updateTime = form.find("small").text
+
   choices = soup.find_all("table", {"class": "choice"})
 
   for choice in choices:

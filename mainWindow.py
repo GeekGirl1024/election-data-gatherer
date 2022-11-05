@@ -52,10 +52,6 @@ class MainWindow(QMainWindow):
     dateString = now.strftime("%Y%m%d-%H-%M-%S")
     return dateString
 
-    url = self.county8Url.toPlainText()
-    countyName = self.county8Label.toPlainText()
-    contestName = self.contestName8.toPlainText()
-    fileName = self.downloadFile(url, countyName)
 
 
   def showCurrentState(self):

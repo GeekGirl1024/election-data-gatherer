@@ -57,7 +57,15 @@ class County:
         myResult = self.processFile(fileName, contestName)
       
       self.results.append(myResult)
-      output = "FileName: " + fileName + "\n"
+
+      self.filePathBox.setPlainText(fileName)
+      if myResult.updateTime != "":
+
+        self.updateTimeBox.setPlainText(myResult.updateTime)
+      elif myResult.hash != "":
+        self.updateTimeBox.setPlainText(myResult.hash)
+      
+      output = ""
       
       if self.pdf:
         output += "Hash: " + myResult.hash + "\n"
@@ -65,7 +73,7 @@ class County:
         output += "DEM " + str(myResult.democrat.votes) + "\n" + "GOP " + str(myResult.republican.votes)
         
       
-      self.resultBox.insertPlainText(output)
+      self.resultBox.setPlainText(output)
 
       self.election.getCurrentState()
 
@@ -80,6 +88,7 @@ class County:
     return file_hash.hexdigest()
 
   def processFile(self, filePath, contestName) :
+    countyResults = Result()
     p = clarify.Parser()
     
     p.parse(filePath)
@@ -90,37 +99,37 @@ class County:
     results = contest.results
     
 
-    choiceTotals = {}
+    demName = "foster"
+    gopName = "lauf"
+    choiceTotals = { demName: 0, gopName: 0}
+
+    countyResults.updateTime = str(p.timestamp)
+    
 
     output = contestName + " " + str(p.timestamp) + "\n"
 
     for result in results:
       if result.choice is not None:
         # if jurisdiction is none then it is a sum of all jurisdictions
-        if result.jurisdiction is None:
+        if result.jurisdiction is not None:
           continue
         #output += result.choice.text + " | " + result.vote_type + " | " + str(result.votes) + "\n"
 
         candidateName = result.choice.text.lower()
-        if candidateName not in choiceTotals:
-          choiceTotals[candidateName] = 0
-        
-        choiceTotals[candidateName] += result.votes
+        if (demName in candidateName):
+          choiceTotals[demName] += result.votes
 
-        "Catalina Lauf"
-        "Bill Foster"
-
+        if (gopName in candidateName):
+          choiceTotals[gopName] += result.votes
 
 
     for k, v in choiceTotals.items():
       output += k + " | " + str(v) + "\n"
 
-    countyResults = Result()
-    if "catalina lauf" in choiceTotals:
-      countyResults.republican.votes = choiceTotals["catalina lauf"]
+
+    countyResults.republican.votes = choiceTotals[gopName]
     
-    if "bill foster" in choiceTotals:
-      countyResults.democrat.votes = choiceTotals["bill foster"]
+    countyResults.democrat.votes = choiceTotals[demName]
     
     return countyResults
       
