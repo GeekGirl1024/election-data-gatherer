@@ -15,9 +15,18 @@ class Election:
     republican = 0
     for county in self.counties:
       resultsCount = len(county.results)
-      if resultsCount > 0 :
+      
+      if county.demOverRide > 0:
+        democrat += county.demOverRide
+      elif resultsCount > 0 :
         democrat += (county.results[resultsCount-1]).democrat.votes
+
+      if county.gopOverRide > 0:
+        republican += county.gopOverRide
+      elif resultsCount > 0 :
         republican += (county.results[resultsCount-1]).republican.votes
+      
+    
     self.democratTotal = democrat
     self.republicanTotal = republican
 
@@ -75,9 +84,25 @@ class Election:
       layout.addWidget(resultBox)
       county.resultBox = resultBox
 
+      demOverRideBox = QPlainTextEdit()
+      demOverRideBox.resize(70, 30)
+      demOverRideBox.move(1300 + x, y)
+      demOverRideBox.textChanged.connect(county.demOverrideChanged)
+      layout.addWidget(demOverRideBox)
+      county.demOverRideBox = demOverRideBox
+
+      gopOverRideBox = QPlainTextEdit()
+      gopOverRideBox.resize(70, 30)
+      gopOverRideBox.move(1300 + x, y + 35)
+      gopOverRideBox.textChanged.connect(county.gopOverrideChanged)
+      layout.addWidget(gopOverRideBox)
+      county.gopOverRideBox = gopOverRideBox
+
+      
+
       downloadButton = QPushButton()
       downloadButton.resize(120,30)
-      downloadButton.move(1300 + x, y)
+      downloadButton.move(1380 + x, y)
       downloadButton.setStyleSheet("background:blue")
       downloadButton.text = "Download"
       downloadButton.clicked.connect(county.buttonPress)

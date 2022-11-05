@@ -27,6 +27,8 @@ class County:
     self.contestName = ""
     self.results = []
     self.url = ""
+    self.gopOverRide = 0
+    self.demOverRide = 0
   
   def getCurrentResults(self) :
     
@@ -39,6 +41,24 @@ class County:
       returnResult.other.votes = latestResult.other.votes
 
     return returnResult
+
+  def demOverrideChanged(self):
+    demOverrideString = self.demOverRideBox.toPlainText().strip()
+    try:
+      demOverride = int(demOverrideString)
+      self.demOverRide = demOverride
+    except:
+      self.demOverRide = 0
+    self.election.getCurrentState()
+
+  def gopOverrideChanged(self):
+    gopOverrideString = self.gopOverRideBox.toPlainText().strip()
+    try:
+      gopOverride = int(gopOverrideString)
+      self.gopOverRide = gopOverride
+    except:
+      self.gopOverRide = 0
+    self.election.getCurrentState()
 
   def buttonPress(self):
 
