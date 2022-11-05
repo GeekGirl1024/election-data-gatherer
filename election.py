@@ -21,9 +21,12 @@ class Election:
     self.democratTotal = democrat
     self.republicanTotal = republican
 
+    self.window.showCurrentState()
+
   def createUi(self, window):
     i = 0
     layout = window.layout()
+
     for county in self.counties:
       x = 20
       y = 20 + (i)*70
@@ -33,34 +36,45 @@ class Election:
       
       label.setPlainText(county.name)
 
+      county.label = label
       layout.addWidget(label)
+
 
       urlBox = QPlainTextEdit()
       urlBox.resize(270, 50)
       urlBox.move(x + 120, y)
       urlBox.setPlainText(county.url)
+
+      county.urlBox = urlBox
       layout.addWidget(urlBox)
 
       contestNameBox = QPlainTextEdit()
       contestNameBox.resize(250,50)
       contestNameBox.move(x + 400, y)
       contestNameBox.setPlainText(county.contestName)
+
+      county.contestNameBox = contestNameBox
       layout.addWidget(contestNameBox)
 
       resultBox = QPlainTextEdit()
       resultBox.resize(220, 50)
       resultBox.move(660 + x, y)
       layout.addWidget(resultBox)
+      county.resultBox = resultBox
+
 
       downloadButton = QPushButton()
       downloadButton.resize(120,30)
       downloadButton.move(890 + x, y)
       downloadButton.setStyleSheet("background:blue")
       downloadButton.text = "Download"
+      downloadButton.clicked.connect(county.buttonPress)
+
+      
+      county.downloadButton = downloadButton
       layout.addWidget(downloadButton)
       
       
       i += 1
-      
+    
 
-      

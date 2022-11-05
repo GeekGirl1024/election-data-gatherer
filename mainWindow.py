@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
     super(MainWindow, self).__init__()
     uic.loadUi('./ui-data/elections.ui', self)
     self.election = election
+    self.election.window = self
 
   def load(self):
     """function that loads events"""
@@ -238,72 +239,16 @@ class MainWindow(QMainWindow):
           f.extractall("Data/"+countyName)
           os.rename("Data/"+countyName + "/detail.xml", outputFile)
           self.statusArea.insertPlainText(outputFile+" UnZipped and Saved\n")
-      else :
+      elif (urlLastSegment == "pdf"):
+        with open(outputFile, 'wb') as fd:
+          for chunk in resp.iter_content(2000):
+              fd.write(chunk)
+      else:
         with open(outputFile, 'a+') as f:
           f.write(resp.text)
           self.statusArea.insertPlainText(outputFile+" Saved\n")
       
     return outputFile
 
-  def parseCookCounty(self, filePath):
-    output = ""
-    contents = ""
-    with open(filePath, 'r') as f:
-      contents = f.read()
-    soup = BeautifulSoup(contents, 'html.parser')
-    candidates = soup.find_all("td", {"class": "candidate"})
-
-    returnResult = Result()
-
-    for candidate in candidates:
-
-      voteNode = candidate.find_next_sibling("td")
-      voteString = voteNode.text.replace("\"", "").strip()
-      voteCount = int(voteString)
-
-      candidateName = candidate.text.replace("\"", "").strip()
-      output += candidateName + "\n"
-
-      if "catalina" in candidateName.lower():
-        returnResult.republican.votes = voteCount
-
-      if "foster" in candidateName.lower():
-        returnResult.democrat.votes = voteCount
-
-    self.statusArea.insertPlainText(filePath+" Parsed\n")
-
-    self.statusArea.insertPlainText(output + "\n")
-
-    return returnResult
-
-  def parseKaneCounty(self, filePath):
-    returnResult = Result()
-    output = ""
-    contents = ""
-    with open(filePath, 'r') as f:
-      contents = f.read()
-    soup = BeautifulSoup(contents, 'html.parser')
-    choices = soup.find_all("table", {"class": "choice"})
-
-    for choice in choices:
-      header2 = choice.find("h2")
-      if ( header2 and ("11TH CONGRESSIONAL DISTRICT REPRESENTATIVE IN CONGRESS" in header2.text)):
-        result_table = choice.find_next_sibling("table")
-        result_rows = result_table.find_all(recursive=False)
-        for result_row in result_rows :
-          result_cols = result_row.find_all(recursive=False)
-          
-          candidateName = result_cols[1].text.replace("<b>", "").replace("</b>", "").strip()
-          voteString = result_cols[2].find_all("b")[0].text.replace("<b>", "").replace("</b>", "").strip()
-          voteint = int(voteString)
-          if "catalina" in candidateName.lower() :
-            returnResult.republican.votes = voteint
-          if "foster" in candidateName.lower() :
-            returnResult.democrat.votes = voteint
-          output +=  candidateName + " " + voteString + "\n"
-    
-
-    #self.statusArea.insertPlainText(output + "\n\n\n")
-    self.statusArea.insertPlainText(filePath+" Parsed\n")
-    return returnResult
-
+  def showCurrentState(self):
+    self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
