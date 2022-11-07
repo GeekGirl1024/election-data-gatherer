@@ -9,6 +9,8 @@ class Result:
     self.updateTime = ""
     self.hash = ""
     self.fileName = ""
+    self.precinctsReported = 0
+    self.precinctsReporting = 0
     self.error = False
     self.democrat = Candidate()
     self.democrat.name = "Bill"

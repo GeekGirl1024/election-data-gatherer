@@ -50,6 +50,7 @@ class Election:
       label = QPlainTextEdit()
       label.move(xNow, y)
       label.resize(width, 60)
+      label.setStyleSheet("font-size: 10px; overflow:hidden; ")
       label.setPlainText(county.name)
       county.label = label
       layout.addWidget(label)
@@ -59,7 +60,7 @@ class Election:
       urlBox = QPlainTextEdit()
       urlBox.resize(width, 60)
       urlBox.move(xNow, y)
-      urlBox.setStyleSheet("font-size: 12px; overflow:hidden; ")
+      urlBox.setStyleSheet("font-size: 10px; overflow:hidden; ")
       urlBox.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
       urlBox.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
       urlBox.setPlainText(county.url)
@@ -71,7 +72,7 @@ class Election:
       contestNameBox = QPlainTextEdit()
       contestNameBox.resize(width, 60)
       contestNameBox.move(xNow, y)
-      contestNameBox.setStyleSheet("font-size: 12px; overflow:hidden; ")
+      contestNameBox.setStyleSheet("font-size: 10px; overflow:hidden; ")
       contestNameBox.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
       contestNameBox.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
       contestNameBox.setPlainText(county.contestName)
@@ -111,12 +112,20 @@ class Election:
       county.updateTimeBox = updateTimeBox
       xNow += width + margin
 
-      width = 220
+      width = 100
       resultBox = QPlainTextEdit()
       resultBox.resize(width, 60)
       resultBox.move(xNow, y)
       layout.addWidget(resultBox)
       county.resultBox = resultBox
+      xNow += width + margin
+
+      width = 100
+      countyInfoBox = QPlainTextEdit()
+      countyInfoBox.resize(width, 60)
+      countyInfoBox.move(xNow, y)
+      layout.addWidget(countyInfoBox)
+      county.countyInfoBox = countyInfoBox
       xNow += width + margin
 
       width = 70

@@ -56,3 +56,4 @@ class MainWindow(QMainWindow):
 
   def showCurrentState(self):
     self.resultsTextEdit.setPlainText("Dems:" + str(self.election.democratTotal) + "\n" + "GOP:" + str(self.election.republicanTotal) + "\n")
+    

@@ -29,6 +29,8 @@ class County:
     self.url = ""
     self.gopOverRide = 0
     self.demOverRide = 0
+    self.projectedTotal = 0
+    
   
   def getCurrentResults(self) :
     
@@ -39,6 +41,8 @@ class County:
       returnResult.democrat.votes = latestResult.democrat.votes
       returnResult.republican.votes = latestResult.republican.votes
       returnResult.other.votes = latestResult.other.votes
+      returnResult.precinctsReported = latestResult.precinctsReported
+      returnResult.precinctsReporting = latestResult.precinctsReporting
 
     return returnResult
 
@@ -85,6 +89,8 @@ class County:
 
       self.hashBox.setText(myResult.hash)
 
+      self.countyInfoBox.setPlainText("Reporting: " + str(myResult.precinctsReported) + " / "+str(myResult.precinctsReporting) )
+
       self.results.append(myResult)
       
       output = ""
@@ -118,6 +124,8 @@ class County:
     p.parse(countyResults.fileName)
 
     contest = p.get_contest(contestName)
+    countyResults.precinctsReported = contest.precincts_reported
+    countyResults.precinctsReporting = contest.precincts_reporting
     
 
     results = contest.results

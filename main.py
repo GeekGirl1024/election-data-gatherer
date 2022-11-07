@@ -95,6 +95,7 @@ lakeCounty.name = "Lake"
 lakeCounty.clarify = True
 lakeCounty.url = "https://results.enr.clarityelections.com/IL/Lake/114135/300541/reports/detailxml.zip"
 lakeCounty.contestName = "Representative in Congress Eleventh Congressional District"
+lakeCounty.projectedTotal = 8476
 lakeCounty.election = election
   
 election.counties.append(lakeCounty)
@@ -104,6 +105,7 @@ dupageCounty.name = "Dupage"
 dupageCounty.clarify = True
 dupageCounty.url = "https://www.dupageresults.gov//IL/DuPage/114213/300666/reports/detailxml.zip"
 dupageCounty.contestName = "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
+dupageCounty.projectedTotal = 90349
 dupageCounty.election = election 
   
 election.counties.append(dupageCounty)
@@ -113,6 +115,7 @@ willCounty.name = "Will"
 willCounty.clarify = True
 willCounty.url = "https://results.enr.clarityelections.com//IL/Will/114217/300664/reports/detailxml.zip"
 willCounty.contestName = "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
+willCounty.projectedTotal = 29284
 willCounty.election = election
 
 election.counties.append(willCounty)
@@ -122,6 +125,7 @@ mcHenryCounty.name = "McHenry"
 mcHenryCounty.clarify = True
 mcHenryCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115186/301334/reports/detailxml.zip"
 mcHenryCounty.contestName = "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT"
+mcHenryCounty.projectedTotal = 66886
 mcHenryCounty.election = election
 
 election.counties.append(mcHenryCounty)
@@ -131,6 +135,7 @@ cookCounty.name = "Cook"
 cookCounty.url = "https://results622.cookcountyclerkil.gov/Home/Detail?contestId=203"
 
 cookCounty.customParse = parseCookCounty
+cookCounty.projectedTotal = 4480
 cookCounty.election = election
   
 election.counties.append(cookCounty)
@@ -139,6 +144,7 @@ kaneCounty = County()
 kaneCounty.name = "Kane"
 kaneCounty.url = "http://electionresults.countyofkane.org/Contests.aspx?Id=26"
 kaneCounty.customParse = parseKaneCounty
+kaneCounty.projectedTotal = 85980
 kaneCounty.election = election
   
 election.counties.append(kaneCounty)
@@ -147,6 +153,7 @@ booneCounty = County()
 booneCounty.name = "Boone"
 booneCounty.url = "https://www.boonecountyil.gov/Departments/Clerk-Recorder/voting/2022_jun_28_il_boone_SOVC.pdf"
 booneCounty.pdf = True
+booneCounty.projectedTotal = 7366
 booneCounty.election = election
   
 election.counties.append(booneCounty)
@@ -156,6 +163,7 @@ deKalbCounty = County()
 deKalbCounty.name = "DeKalb"
 deKalbCounty.url = "http://dekalb.il.clerkserve.com/wp-content/uploads/DeKalb-General-Primary-Election-Official-Results-06-28-2022-1.pdf"
 deKalbCounty.pdf = True
+deKalbCounty.projectedTotal = 3710
 deKalbCounty.election = election
   
 election.counties.append(deKalbCounty)
