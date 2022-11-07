@@ -1,6 +1,7 @@
 
 from re import X
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit, QPlainTextEdit, QPushButton
+from PyQt6.QtWidgets import QStyleOptionButton, QApplication, QMainWindow, QLineEdit, QPlainTextEdit, QPushButton
+from PyQt6.QtCore import Qt
 
 class Election:
 
@@ -35,6 +36,7 @@ class Election:
   def createUi(self, window):
     i = 0
     layout = window.layout()
+    margin = 10
 
     
 
@@ -42,74 +44,110 @@ class Election:
       x = 10
       y = 10 + i * 70
 
+      xNow = x
+      
+      width = 70
       label = QPlainTextEdit()
-      label.move(x, y)
-      label.resize(100, 60)
+      label.move(xNow, y)
+      label.resize(width, 60)
       label.setPlainText(county.name)
-
       county.label = label
       layout.addWidget(label)
+      xNow += width + margin
 
+      width = 200
       urlBox = QPlainTextEdit()
-      urlBox.resize(280, 60)
-      urlBox.move(x + 110, y)
+      urlBox.resize(width, 60)
+      urlBox.move(xNow, y)
+      urlBox.setStyleSheet("font-size: 12px; overflow:hidden; ")
+      urlBox.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+      urlBox.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
       urlBox.setPlainText(county.url)
-
       county.urlBox = urlBox
       layout.addWidget(urlBox)
+      xNow += width + margin
 
+      width = 150
       contestNameBox = QPlainTextEdit()
-      contestNameBox.resize(250,60)
-      contestNameBox.move(x + 400, y)
+      contestNameBox.resize(width, 60)
+      contestNameBox.move(xNow, y)
+      contestNameBox.setStyleSheet("font-size: 12px; overflow:hidden; ")
+      contestNameBox.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+      contestNameBox.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
       contestNameBox.setPlainText(county.contestName)
-
       county.contestNameBox = contestNameBox
       layout.addWidget(contestNameBox)
+      xNow += width + margin
 
-      filePathBox = QPlainTextEdit()
-      filePathBox.resize(400,30)
-      filePathBox.move(x + 660, y)
+      width = 400
+      filePathBox = QLineEdit()
+      filePathBox.setReadOnly(True)
+      filePathBox.setStyleSheet("font-size: 10px; overflow:hidden; ")
+      
+      
+      filePathBox.resize(width,20)
+      filePathBox.move(xNow, y)
       layout.addWidget(filePathBox)
       county.filePathBox = filePathBox
 
-      updateTimeBox = QPlainTextEdit()
-      updateTimeBox.resize(400,30)
-      updateTimeBox.move(x + 660, y + 35)
+      hashBox = QLineEdit()
+      hashBox.setReadOnly(True)
+      hashBox.setStyleSheet("font-size: 10px; overflow:hidden; ")
+      
+      
+      hashBox.resize(width,20)
+      hashBox.move(xNow, y + 22)
+      layout.addWidget(hashBox)
+      county.hashBox = hashBox
+
+      updateTimeBox = QLineEdit()
+      updateTimeBox.setReadOnly(True)
+      updateTimeBox.setStyleSheet("font-size: 10px; overflow:hidden; ")
+      
+      
+      updateTimeBox.resize(width,20)
+      updateTimeBox.move(xNow, y + 44)
       layout.addWidget(updateTimeBox)
       county.updateTimeBox = updateTimeBox
+      xNow += width + margin
 
+      width = 220
       resultBox = QPlainTextEdit()
-      resultBox.resize(220, 60)
-      resultBox.move(1070 + x, y)
+      resultBox.resize(width, 60)
+      resultBox.move(xNow, y)
       layout.addWidget(resultBox)
       county.resultBox = resultBox
+      xNow += width + margin
 
-      demOverRideBox = QPlainTextEdit()
-      demOverRideBox.resize(70, 30)
-      demOverRideBox.move(1300 + x, y)
+      width = 70
+      demOverRideBox = QLineEdit()
+      demOverRideBox.resize(width, 30)
+      demOverRideBox.move(xNow, y)
       demOverRideBox.textChanged.connect(county.demOverrideChanged)
       layout.addWidget(demOverRideBox)
       county.demOverRideBox = demOverRideBox
 
-      gopOverRideBox = QPlainTextEdit()
-      gopOverRideBox.resize(70, 30)
-      gopOverRideBox.move(1300 + x, y + 35)
+      gopOverRideBox = QLineEdit()
+      gopOverRideBox.resize(width, 30)
+      gopOverRideBox.move(xNow, y + 35)
       gopOverRideBox.textChanged.connect(county.gopOverrideChanged)
       layout.addWidget(gopOverRideBox)
       county.gopOverRideBox = gopOverRideBox
+      xNow += width + margin
 
       
-
+      width = 120
       downloadButton = QPushButton()
-      downloadButton.resize(120,30)
-      downloadButton.move(1380 + x, y)
-      downloadButton.setStyleSheet("background:blue")
+      downloadButton.resize(width,30)
+      downloadButton.move(xNow, y)
+      downloadButton.setStyleSheet("background:lightblue; border:grey; border-style: solid; border-width: 5px;")
       downloadButton.text = "Download"
       downloadButton.clicked.connect(county.buttonPress)
 
       
       county.downloadButton = downloadButton
       layout.addWidget(downloadButton)
+      xNow += width + margin
       
       
       i += 1

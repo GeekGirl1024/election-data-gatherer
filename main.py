@@ -19,20 +19,20 @@ from result import Result
 
 from mainWindow import MainWindow
 
-def parseCookCounty(self, filePath):
+def parseCookCounty(self, countyResult):
     output = ""
     contents = ""
-    with open(filePath, 'r') as f:
+    with open(countyResult.fileName, 'r') as f:
       contents = f.read()
     soup = BeautifulSoup(contents, 'html.parser')
     candidates = soup.find_all("td", {"class": "candidate"})
 
-    returnResult = Result()
+    
 
     side = soup.find("div", {"id": "collapseOne"})
     updateTime = side.find("div", {"class": "text-center"})
 
-    returnResult.updateTime = updateTime.text.strip()
+    countyResult.updateTime = updateTime.text.strip()
 
     for candidate in candidates:
 
@@ -44,26 +44,26 @@ def parseCookCounty(self, filePath):
       output += candidateName + "\n"
 
       if "catalina" in candidateName.lower():
-        returnResult.republican.votes = voteCount
+        countyResult.republican.votes = voteCount
 
       if "foster" in candidateName.lower():
-        returnResult.democrat.votes = voteCount
+        countyResult.democrat.votes = voteCount
 
 
-    return returnResult
+    return countyResult
 
 
-def parseKaneCounty(self, filePath):
-  returnResult = Result()
+def parseKaneCounty(self, countyResult):
+  
   output = ""
   contents = ""
-  with open(filePath, 'r') as f:
+  with open(countyResult.fileName, 'r') as f:
     contents = f.read()
   soup = BeautifulSoup(contents, 'html.parser')
 
   form = soup.find("form")
 
-  returnResult.updateTime = form.find("small").text
+  countyResult.updateTime = form.find("small").text
 
   choices = soup.find_all("table", {"class": "choice"})
 
@@ -79,12 +79,12 @@ def parseKaneCounty(self, filePath):
         voteString = result_cols[2].find_all("b")[0].text.replace("<b>", "").replace("</b>", "").strip()
         voteint = int(voteString)
         if "catalina" in candidateName.lower() :
-          returnResult.republican.votes = voteint
+          countyResult.republican.votes = voteint
         if "foster" in candidateName.lower() :
-          returnResult.democrat.votes = voteint
+          countyResult.democrat.votes = voteint
         output +=  candidateName + " " + voteString + "\n"
 
-  return returnResult
+  return countyResult
 
 
 

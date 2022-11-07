@@ -43,7 +43,7 @@ class County:
     return returnResult
 
   def demOverrideChanged(self):
-    demOverrideString = self.demOverRideBox.toPlainText().strip()
+    demOverrideString = self.demOverRideBox.text().strip()
     try:
       demOverride = int(demOverrideString)
       self.demOverRide = demOverride
@@ -52,7 +52,7 @@ class County:
     self.election.getCurrentState()
 
   def gopOverrideChanged(self):
-    gopOverrideString = self.gopOverRideBox.toPlainText().strip()
+    gopOverrideString = self.gopOverRideBox.text().strip()
     try:
       gopOverride = int(gopOverrideString)
       self.gopOverRide = gopOverride
@@ -64,31 +64,35 @@ class County:
 
       url = self.urlBox.toPlainText()
       countyName = self.label.toPlainText()
-      fileName = self.downloadFile(url, countyName)
-
-      myResult = Result()
-      if self.pdf :
-        myResult.hash = self.getHash(fileName)
-        
+      myResult = self.downloadFile(url, countyName)
+      if (myResult.error):
+        pass
+      elif self.pdf :
+        pass
       elif hasattr(self, 'customParse') :
-        myResult = self.customParse(self, fileName)
+        myResult = self.customParse(self, myResult)
       else :
         contestName = self.contestNameBox.toPlainText()
-        myResult = self.processFile(fileName, contestName)
+        myResult = self.processFile(myResult, contestName)
+
+      myResult.hash = self.getHash(myResult.fileName)
       
+      
+
+      self.filePathBox.setText(myResult.fileName)
+
+      self.updateTimeBox.setText(myResult.updateTime)
+
+      self.hashBox.setText(myResult.hash)
+
       self.results.append(myResult)
-
-      self.filePathBox.setPlainText(fileName)
-      if myResult.updateTime != "":
-
-        self.updateTimeBox.setPlainText(myResult.updateTime)
-      elif myResult.hash != "":
-        self.updateTimeBox.setPlainText(myResult.hash)
       
       output = ""
       
-      if self.pdf:
-        output += "Hash: " + myResult.hash + "\n"
+      if myResult.error:
+        output += "Error Occured\n"
+      elif self.pdf:
+        output += "Processed\n"
       else:
         output += "DEM " + str(myResult.democrat.votes) + "\n" + "GOP " + str(myResult.republican.votes)
         
@@ -107,11 +111,11 @@ class County:
 
     return file_hash.hexdigest()
 
-  def processFile(self, filePath, contestName) :
-    countyResults = Result()
+  def processFile(self, countyResults, contestName) :
+
     p = clarify.Parser()
     
-    p.parse(filePath)
+    p.parse(countyResults.fileName)
 
     contest = p.get_contest(contestName)
     
@@ -158,6 +162,8 @@ class County:
     dateString = self.getTimeString()
     urlSegments = url.split(".")
     fileExtension = "html"
+
+    fileResult = Result()
     if (len(urlSegments) > 0):
       urlLastSegment = urlSegments[-1].lower()
       if (urlLastSegment == "xml"):
@@ -169,8 +175,16 @@ class County:
 
     outputFile = "Data/" + countyName+"/"+dateString+"."+fileExtension
     with requests.get(url, verify=False, headers=self.requestHeaders) as resp :
+      
       #self.statusArea.insertPlainText(countyName+" Downloaded\n")
-      if (urlLastSegment == "zip") :
+      if resp.status_code != 200:
+        outputFile = "Data/" + countyName+"/"+dateString+".html"
+        fileResult.error = True
+        with open(outputFile, 'wb') as fd:
+          for chunk in resp.iter_content(5000):
+              fd.write(chunk)
+        
+      elif (urlLastSegment == "zip") :
         with zipfile.ZipFile(io.BytesIO(resp.content)) as f:
           f.extractall("Data/"+countyName)
           os.rename("Data/"+countyName + "/detail.xml", outputFile)
@@ -183,5 +197,7 @@ class County:
         with open(outputFile, 'a+') as f:
           f.write(resp.text)
           #self.statusArea.insertPlainText(outputFile+" Saved\n")
-      
-    return outputFile
+    
+    fileResult.fileName = outputFile
+
+    return fileResult

@@ -8,6 +8,8 @@ class Result:
     self.downloadTime = datetime.now()
     self.updateTime = ""
     self.hash = ""
+    self.fileName = ""
+    self.error = False
     self.democrat = Candidate()
     self.democrat.name = "Bill"
     self.republican = Candidate()
