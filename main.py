@@ -3,6 +3,8 @@ This is an application to get latest information from various counties
 """
 
 
+#import json
+import json
 import sys
 
 
@@ -19,41 +21,64 @@ from result import Result
 
 from mainWindow import MainWindow
 
-def parseCookCounty(self, countyResult):
+def parseCookCounty(self, countyResult, contestName):
     output = ""
     contents = ""
+    #countyResult.fileName = "Data/Cook/20221108-14-53-59.html"
     with open(countyResult.fileName, 'r') as f:
       contents = f.read()
     soup = BeautifulSoup(contents, 'html.parser')
-    candidates = soup.find_all("td", {"class": "candidate"})
+    contests = soup.find_all("div", {"class": "panel contest"})
 
     
 
-    side = soup.find("div", {"id": "collapseOne"})
-    updateTime = side.find("div", {"class": "text-center"})
+    #side = soup.find("div", {"id": "collapseOne"})
+    updateTime = soup.find("div", {"id": "lblGeneratedTimeStamp"})
 
     countyResult.updateTime = updateTime.text.strip()
 
-    for candidate in candidates:
+    for contest in contests:
 
-      voteNode = candidate.find_next_sibling("td")
-      voteString = voteNode.text.replace("\"", "").strip()
-      voteCount = int(voteString)
+      contestNameElement = contest.find("h5")
 
-      candidateName = candidate.text.replace("\"", "").strip()
-      output += candidateName + "\n"
+      if contestNameElement.text == contestName:
 
-      if "catalina" in candidateName.lower():
-        countyResult.republican.votes = voteCount
+        headerInfo = contest.find("tr", { "class" : "headerInfo"})
+        reportingElement = headerInfo.find("div", { "class": "container row"}).find_all("div")[1]
 
-      if "foster" in candidateName.lower():
-        countyResult.democrat.votes = voteCount
+        reportingText = reportingElement.text
+        reportingText = reportingText.replace("Precincts Reported","").strip()
+        reportingOf = reportingText.split(" of ")
+        countyResult.precinctsReported = int(reportingOf[0])
+        countyResult.precinctsReporting = int(reportingOf[1])
+
+        candidateRows = contest.find("tbody").find_all("tr")
+        for candidateRow in candidateRows:
+          candidateElement = candidateRow.find("td", {"class": "candidate"})
+          voteNode = candidateElement.find_next_sibling("td")
+          voteString = voteNode.text.replace("\"", "").strip()
+          voteCount = int(voteString)
+
+          candidateName = candidateElement.text.replace("\"", "").strip()
+          output += candidateName + "\n"
+
+          if "catalina" in candidateName.lower():
+            countyResult.republican.votes = voteCount
+
+          if "foster" in candidateName.lower():
+            countyResult.democrat.votes = voteCount
+
+        break
+
+      
+
+
 
 
     return countyResult
 
 
-def parseKaneCounty(self, countyResult):
+def parseKaneCounty(self, countyResult, contestName):
   
   output = ""
   contents = ""
@@ -69,7 +94,13 @@ def parseKaneCounty(self, countyResult):
 
   for choice in choices:
     header2 = choice.find("h2")
-    if ( header2 and ("11TH CONGRESSIONAL DISTRICT REPRESENTATIVE IN CONGRESS" in header2.text)):
+    if ( header2 and (contestName in header2.text)):
+      summary_table = choice.find_previous_sibling("table")
+      reporting_cell = summary_table.find_all("td")[3]
+      reporting_num = reporting_cell.find_all("b")
+      countyResult.precinctsReported = int(reporting_num[0].text)
+      countyResult.precinctsReporting = int(reporting_num[1].text)
+
       result_table = choice.find_next_sibling("table")
       result_rows = result_table.find_all(recursive=False)
       for result_row in result_rows :
@@ -86,14 +117,45 @@ def parseKaneCounty(self, countyResult):
 
   return countyResult
 
+def parseDeKalbCounty(self, countyResult, contestName):
 
+  return countyResult
+
+def parseBooneCounty(self, countyResult, contestName):
+
+  output = ""
+  contents = ""
+  with open(countyResult.fileName, 'r') as f:
+    contents = f.read()
+  soup = BeautifulSoup(contents, 'html.parser')
+
+  jsonString = soup.find_all("script")[4].text.split("\n")[2].strip()
+  jsonStringStart = "var electionData = "
+  if jsonString.startswith(jsonStringStart):
+    jsonString = jsonString[len(jsonStringStart):]
+    jsonString = jsonString[:-1]
+    allData = json.loads(jsonString)
+    
+    #catalina total y["Races"][7]['Candidates'][0]['TotalVotesForCandidate']
+    countyResult.republican.votes = allData["Races"][7]['Candidates'][0]['TotalVotesForCandidate']
+    #bill total y["Races"][7]['Candidates'][0]['TotalVotesForCandidate']
+    countyResult.democrat.votes = allData["Races"][7]['Candidates'][1]['TotalVotesForCandidate']
+    #len(y["Races"][7]['Reporting'])
+    #len(y["Races"][7]['NotReporting'])
+
+    countyResult.updateTime = allData["Election"]["UpdateTime"]
+    countyResult.precinctsReported = len(allData["Races"][7]['Reporting'])
+    countyResult.precinctsReporting = len(allData["Races"][7]['NotReporting']) + len(allData["Races"][7]['Reporting'])
+
+
+  return countyResult
 
 election = Election()
 
 lakeCounty = County()
 lakeCounty.name = "Lake"
 lakeCounty.clarify = True
-lakeCounty.url = "https://results.enr.clarityelections.com/IL/Lake/114135/300541/reports/detailxml.zip"
+lakeCounty.url = "https://results.enr.clarityelections.com//IL/Lake/115764/308024/reports/detailxml.zip"
 lakeCounty.contestName = "Representative in Congress Eleventh Congressional District"
 lakeCounty.projectedTotal = 8476
 lakeCounty.election = election
@@ -103,7 +165,7 @@ election.counties.append(lakeCounty)
 dupageCounty = County()
 dupageCounty.name = "Dupage"
 dupageCounty.clarify = True
-dupageCounty.url = "https://www.dupageresults.gov//IL/DuPage/114213/300666/reports/detailxml.zip"
+dupageCounty.url = "https://www.dupageresults.gov//IL/DuPage/115972/307996/reports/detailxml.zip"
 dupageCounty.contestName = "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
 dupageCounty.projectedTotal = 90349
 dupageCounty.election = election 
@@ -113,7 +175,7 @@ election.counties.append(dupageCounty)
 willCounty = County()
 willCounty.name = "Will"
 willCounty.clarify = True
-willCounty.url = "https://results.enr.clarityelections.com//IL/Will/114217/300664/reports/detailxml.zip"
+willCounty.url = "https://results.enr.clarityelections.com//IL/Will/116151/305267/reports/detailxml.zip"
 willCounty.contestName = "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
 willCounty.projectedTotal = 29284
 willCounty.election = election
@@ -123,7 +185,7 @@ election.counties.append(willCounty)
 mcHenryCounty = County()
 mcHenryCounty.name = "McHenry"
 mcHenryCounty.clarify = True
-mcHenryCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115186/301334/reports/detailxml.zip"
+mcHenryCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115977/304991/reports/detailxml.zip"
 mcHenryCounty.contestName = "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT"
 mcHenryCounty.projectedTotal = 66886
 mcHenryCounty.election = election
@@ -132,7 +194,8 @@ election.counties.append(mcHenryCounty)
 
 cookCounty = County()
 cookCounty.name = "Cook"
-cookCounty.url = "https://results622.cookcountyclerkil.gov/Home/Detail?contestId=203"
+cookCounty.url = "https://electionnight.cookcountyclerkil.gov/"
+cookCounty.contestName = "U.S. Representative, 11th District - Vote For 1"
 
 cookCounty.customParse = parseCookCounty
 cookCounty.projectedTotal = 4480
@@ -142,18 +205,20 @@ election.counties.append(cookCounty)
 
 kaneCounty = County()
 kaneCounty.name = "Kane"
-kaneCounty.url = "http://electionresults.countyofkane.org/Contests.aspx?Id=26"
+kaneCounty.url = "http://electionresults.countyofkane.org/Contests.aspx?Id=27"
 kaneCounty.customParse = parseKaneCounty
 kaneCounty.projectedTotal = 85980
+kaneCounty.contestName = "FOR THE 11TH CONGRESSIONAL DISTRICT REPRESENTATIVE IN CONGRESS"
 kaneCounty.election = election
   
 election.counties.append(kaneCounty)
 
 booneCounty = County()
 booneCounty.name = "Boone"
-booneCounty.url = "https://www.boonecountyil.gov/Departments/Clerk-Recorder/voting/2022_jun_28_il_boone_SOVC.pdf"
-booneCounty.pdf = True
+booneCounty.url = "https://il-boone.pollresults.net/"
+booneCounty.customParse = parseBooneCounty
 booneCounty.projectedTotal = 7366
+booneCounty.contestName = "CONGRESSIONAL 11TH DISTRICT REPRESENTATIVE"
 booneCounty.election = election
   
 election.counties.append(booneCounty)
@@ -161,8 +226,8 @@ election.counties.append(booneCounty)
 
 deKalbCounty = County()
 deKalbCounty.name = "DeKalb"
-deKalbCounty.url = "http://dekalb.il.clerkserve.com/wp-content/uploads/DeKalb-General-Primary-Election-Official-Results-06-28-2022-1.pdf"
-deKalbCounty.pdf = True
+deKalbCounty.url = "http://dekalb.il.clerkserve.com/?cat=49"
+deKalbCounty.customParse = parseDeKalbCounty
 deKalbCounty.projectedTotal = 3710
 deKalbCounty.election = election
   

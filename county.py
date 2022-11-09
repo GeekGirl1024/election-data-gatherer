@@ -68,15 +68,16 @@ class County:
 
       url = self.urlBox.toPlainText()
       countyName = self.label.toPlainText()
+      contestName = self.contestNameBox.toPlainText()
       myResult = self.downloadFile(url, countyName)
       if (myResult.error):
         pass
       elif self.pdf :
         pass
       elif hasattr(self, 'customParse') :
-        myResult = self.customParse(self, myResult)
+        myResult = self.customParse(self, myResult, contestName)
       else :
-        contestName = self.contestNameBox.toPlainText()
+        
         myResult = self.processFile(myResult, contestName)
 
       myResult.hash = self.getHash(myResult.fileName)
