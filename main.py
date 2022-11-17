@@ -6,11 +6,11 @@ This is an application to get latest information from various counties
 #import json
 import json
 import sys
-
+import sched, time
 
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
-from PyQt6 import uic
+from PyQt6 import uic, QtCore
 
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -54,9 +54,10 @@ def parseCookCounty(self, countyResult, contestName):
 
         candidateRows = contest.find("tbody").find_all("tr")
         for candidateRow in candidateRows:
-          candidateElement = candidateRow.find("td", {"class": "candidate"})
+          candidateElement = candidateRow.find("td", {"colspan": "2"})
           voteNode = candidateElement.find_next_sibling("td")
           voteString = voteNode.text.replace("\"", "").strip()
+          voteString = voteString.replace(",", "")
           voteCount = int(voteString)
 
           candidateName = candidateElement.text.replace("\"", "").strip()
@@ -155,7 +156,8 @@ election = Election()
 lakeCounty = County()
 lakeCounty.name = "Lake"
 lakeCounty.clarify = True
-lakeCounty.url = "https://results.enr.clarityelections.com//IL/Lake/115764/308024/reports/detailxml.zip"
+lakeCounty.url = "https://results.enr.clarityelections.com/IL/Lake/115764/"
+#lakeCounty.url = "https://results.enr.clarityelections.com//IL/Lake/115764/308024/reports/detailxml.zip"
 lakeCounty.contestName = "Representative in Congress Eleventh Congressional District"
 lakeCounty.projectedTotal = 8476
 lakeCounty.election = election
@@ -165,7 +167,10 @@ election.counties.append(lakeCounty)
 dupageCounty = County()
 dupageCounty.name = "Dupage"
 dupageCounty.clarify = True
-dupageCounty.url = "https://www.dupageresults.gov//IL/DuPage/115972/307996/reports/detailxml.zip"
+dupageCounty.url = "https://www.dupageresults.gov/IL/DuPage/115972/"
+#dupageCounty.url = "https://www.dupageresults.gov/IL/DuPage/115972/310392/json/sum.json"
+#dupageCounty.url = "https://www.dupageresults.gov/IL/DuPage/115972/web.307039/#/detail/350"
+#dupageCounty.url = "https://www.dupageresults.gov//IL/DuPage/115972/310045/reports/detailxml.zip"
 dupageCounty.contestName = "FOR REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
 dupageCounty.projectedTotal = 90349
 dupageCounty.election = election 
@@ -175,7 +180,8 @@ election.counties.append(dupageCounty)
 willCounty = County()
 willCounty.name = "Will"
 willCounty.clarify = True
-willCounty.url = "https://results.enr.clarityelections.com//IL/Will/116151/305267/reports/detailxml.zip"
+willCounty.url = "https://results.enr.clarityelections.com/IL/Will/116151/"
+#willCounty.url = "https://results.enr.clarityelections.com//IL/Will/116151/310084/reports/detailxml.zip"
 willCounty.contestName = "REPRESENTATIVE IN CONGRESS 11TH CONGRESSIONAL DISTRICT"
 willCounty.projectedTotal = 29284
 willCounty.election = election
@@ -185,7 +191,8 @@ election.counties.append(willCounty)
 mcHenryCounty = County()
 mcHenryCounty.name = "McHenry"
 mcHenryCounty.clarify = True
-mcHenryCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115977/304991/reports/detailxml.zip"
+mcHenryCounty.url = "https://results.enr.clarityelections.com/IL/McHenry/115977/"
+#mcHenryCounty.url = "https://results.enr.clarityelections.com//IL/McHenry/115977/309238/reports/detailxml.zip"
 mcHenryCounty.contestName = "REPRESENTATIVE IN CONGRESS 11th CONGRESSIONAL DISTRICT"
 mcHenryCounty.projectedTotal = 66886
 mcHenryCounty.election = election
@@ -226,7 +233,8 @@ election.counties.append(booneCounty)
 
 deKalbCounty = County()
 deKalbCounty.name = "DeKalb"
-deKalbCounty.url = "http://dekalb.il.clerkserve.com/?cat=49"
+deKalbCounty.url = "https://platinumelectionresults.com/turnouts/county/66"
+#deKalbCounty.url = "http://dekalb.il.clerkserve.com/?cat=49"
 deKalbCounty.customParse = parseDeKalbCounty
 deKalbCounty.projectedTotal = 3710
 deKalbCounty.election = election
@@ -237,5 +245,36 @@ app = QApplication(sys.argv)
 window = MainWindow(election)
 
 window.load()
+
+s = sched.scheduler(time.time, time.sleep)
+def do_something(sc): 
+    print("Doing stuff...")
+    for county in election.counties :
+      county.buttonPress()
+    sc.enter(120, 1, do_something, (sc,))
+
+s.enter(120, 1, do_something, (s,))
+#s.run()
+
+
+def calculo():
+    global time
+    time = time.addSecs(15)
+    print(time.toString("hh:mm:ss"))
+    for county in election.counties :
+      county.buttonPress()
+    window.statusArea.setPlainText("Update: " + time.toString("hh:mm:ss") + "\n" + window.statusArea.toPlainText())
+    
+
+
+timer0 = QtCore.QTimer()
+time = QtCore.QTime(0, 0, 0)
+timer0.setInterval(15000)
+timer0.timeout.connect(calculo)
+timer0.start()
+
 window.show()
+
+
+
 sys.exit(app.exec())

@@ -1,4 +1,5 @@
 import io
+import json
 import os
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
 from datetime import datetime
@@ -67,6 +68,15 @@ class County:
   def buttonPress(self):
 
       url = self.urlBox.toPlainText()
+
+      if self.clarify:
+
+        with requests.get(url+"current_ver.txt", verify=False, headers=self.requestHeaders) as resp :
+          
+            url = url + resp.text + "/reports/detailxml.zip"
+
+
+
       countyName = self.label.toPlainText()
       contestName = self.contestNameBox.toPlainText()
       myResult = self.downloadFile(url, countyName)
@@ -117,6 +127,15 @@ class County:
           fileBuffer = file.read(5000)
 
     return file_hash.hexdigest()
+
+  def processFile2(self, countyResults, contestName) :
+    contents = ""
+    with open(countyResults.fileName, 'r') as f:
+      contents = f.read()
+    
+    allData = json.loads(contents)
+
+    allData
 
   def processFile(self, countyResults, contestName) :
 
@@ -181,8 +200,12 @@ class County:
         fileExtension = "pdf"
       elif (urlLastSegment == "zip"):
         fileExtension = "xml"
+      elif (urlLastSegment == "json"):
+        fileExtension = "json"
 
     outputFile = "Data/" + countyName+"/"+dateString+"."+fileExtension
+    
+
     with requests.get(url, verify=False, headers=self.requestHeaders) as resp :
       
       #self.statusArea.insertPlainText(countyName+" Downloaded\n")
